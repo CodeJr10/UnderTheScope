@@ -15,7 +15,8 @@ const API_OPTIONS = {
 
 const App = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [movieList, setMovieList] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   const fetchMovies = async () => {
@@ -31,7 +32,7 @@ const App = () => {
       console.error("Error fetching movies:", error);
       setErrorMessage("Failed to fetch movies. Please try again later.");
     } finally {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   };
 
@@ -58,7 +59,11 @@ const App = () => {
           ) : errorMessage ? (
             <p className="error">{errorMessage}</p>
           ) : (
-            <ul className="">Movies will be displayed here.</ul>
+            <ul className="">
+              {movieList.map((movie) => (
+                <p className="text-white-500">{movie.title}</p>
+              ))}
+            </ul>
           )}
         </section>
       </div>
