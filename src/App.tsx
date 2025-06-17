@@ -15,9 +15,11 @@ const API_OPTIONS = {
 
 const App = () => {
   const [searchInput, setSearchInput] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
   const fetchMovies = async () => {
+    setIsLoading(true);
     try {
       const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
@@ -28,6 +30,8 @@ const App = () => {
     } catch (error) {
       console.error("Error fetching movies:", error);
       setErrorMessage("Failed to fetch movies. Please try again later.");
+    } finally {
+      setIsLoading(true);
     }
   };
 
@@ -47,8 +51,16 @@ const App = () => {
         <div className="">
           <Search searchInput={searchInput} setSearchInput={setSearchInput} />
         </div>
-
-        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        <section className="">
+          <h2 className="">All Movies</h2>
+          {isLoading ? (
+            <p className="">Loading...</p>
+          ) : errorMessage ? (
+            <p className="error">{errorMessage}</p>
+          ) : (
+            <ul className="">Movies will be displayed here.</ul>
+          )}
+        </section>
       </div>
     </main>
   );
