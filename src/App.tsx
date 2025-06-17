@@ -5,6 +5,11 @@ import Search from "./components/Search";
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
+interface Movie {
+  id: number;
+  title: string;
+}
+
 const API_OPTIONS = {
   method: "GET",
   headers: {
@@ -16,7 +21,7 @@ const API_OPTIONS = {
 const App = () => {
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [movieList, setMovieList] = useState([]);
+  const [movieList, setMovieList] = useState<Movie[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   const fetchMovies = async () => {
