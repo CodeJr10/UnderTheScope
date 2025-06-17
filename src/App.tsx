@@ -28,6 +28,10 @@ const App = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
+
+      const data = await response.json();
+
+      setMovieList(data.results);
     } catch (error) {
       console.error("Error fetching movies:", error);
       setErrorMessage("Failed to fetch movies. Please try again later.");
@@ -61,7 +65,9 @@ const App = () => {
           ) : (
             <ul className="">
               {movieList.map((movie) => (
-                <p className="text-white-500">{movie.title}</p>
+                <p key={movie.id} className="text-white-500">
+                  {movie.title}
+                </p>
               ))}
             </ul>
           )}
