@@ -50,20 +50,18 @@ const App = () => {
     fetchMovies();
   }, []);
   return (
-    <main className="">
+    <main>
       <div className="pattern" />
       <div className="wrapper">
         <header>
           <img src="/hero.png" alt="Hero Banner" />
-          <h1 className="">
+          <h1>
             Find Your Favorite <span className="text-gradient">Movies</span>{" "}
           </h1>
-        </header>
-        <div className="">
           <Search searchInput={searchInput} setSearchInput={setSearchInput} />
-        </div>
-        <section className="">
-          <h2 className="">All Movies</h2>
+        </header>
+        <section className="all-movies">
+          <h2 className="mt-[40px]">All Movies</h2>
           {isLoading ? (
             <div className="">
               <br />
