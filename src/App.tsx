@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import type { Movie } from "./utils/movie";
 import MovieCard from "./components/MovieCard";
 import Search from "./components/Search";
 import Spinner from "./components/Spinner";
@@ -16,15 +17,17 @@ const API_OPTIONS = {
 };
 
 const App = () => {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (query: string = "") => {
     setIsLoading(true);
     try {
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query
+        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS);
 
       if (!response.ok) {
@@ -43,8 +46,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchMovies();
-  }, []);
+    fetchMovies(searchTerm);
+  }, [searchTerm]);
   return (
     <main>
       <div className="pattern" />
@@ -54,7 +57,7 @@ const App = () => {
           <h1>
             Find Your Favorite <span className="text-gradient">Movies</span>{" "}
           </h1>
-          <Search searchInput={searchInput} setSearchInput={setSearchInput} />
+          <Search searchInput={searchTerm} setSearchInput={setSearchTerm} />
         </header>
         <section className="all-movies">
           <h2 className="mt-[40px]">All Movies</h2>
